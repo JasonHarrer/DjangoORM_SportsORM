@@ -5,6 +5,20 @@
 	</head>
 	<body>
 		<h1>Leagues</h1>
+        <form action="/" method=POST>
+            {% csrf_token %}
+            <label for="league_filter">Filter:</label>
+            <select name="league_filter">
+                <option value="all">All Leagues</option>
+                <option value="women">All Women Leagues</option>
+                <option value="hockey">All Hockey Leagues</option>
+                <option value="not_football">All Non-Football Leagues</option>
+                <option value="conferences">All Conferences</option>
+                <option value="atlantic">All Atlantic Leages</option>
+            </select>
+            <input type="submit" value="Update Filter">
+        </form>
+        <br>
 		<ol>
 			{% for league in leagues %}
 				<li>{{league.name}}</li>
@@ -13,6 +27,21 @@
 			{% endfor %}
 		</ol>
 		<h1>Teams</h1>
+        <form action="/" method=POST>
+            {% csrf_token %}
+            <label for="teams_filter">Filter:</label>
+            <select name="teams_filter">
+                <option value="sortalph">All Teams, Sorted by Alphabetical Order</option>
+                <option value="sortralph">All Teams, Sorted by Reverse Alphabetical Order</option>
+                <option value="sortloc">All Teams, Sorted by Location</option>
+                <option value="dallas">All Dallas Teams</option>
+                <option value="raptors">All &quot;Raptor&quot; Teams</option>
+                <option value="city">All &quot;City&quot; Teams</option>
+                <option value="t">All Team Names Beginning With &quot;T&quot;</option>
+            </select>
+            <input type="submit" value="Update Filter">
+        </form>
+        <br>
 		<ol>
 			{% for team in teams %}
 				<li>{{team.location}} {{team.team_name}}</li>
@@ -21,6 +50,19 @@
 			{% endfor %}
 		</ol>
 		<h1>Players</h1>
+        <form action="/" method="POST">
+            {% csrf_token %}
+            <label for="players_filter">
+            <select name="players_filter" id="players_filter">
+                <option value="all">All players</option>
+                <option value="cooper">All players with last name Cooper</option>
+                <option value="joshua">All players with first name Joshua</option>
+                <option value="cooper_not_joshua">All players with last name Cooper except those with Joshua as first name</option>
+                <option value="alexander_or_wyatt">All players with first name Alexander -or- Wyatt</option>
+            </select>
+            <input type="submit" value="Update Filter">
+        </form>
+        <br>
 		<ol>
 			{% for player in players %}
 				<li>{{player.first_name}} {{player.last_name}}</li>
