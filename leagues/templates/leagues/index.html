@@ -9,12 +9,11 @@
             {% csrf_token %}
             <label for="league_filter">Filter:</label>
             <select name="league_filter">
-                <option value="all">All Leagues</option>
-                <option value="women">All Women Leagues</option>
-                <option value="hockey">All Hockey Leagues</option>
-                <option value="not_football">All Non-Football Leagues</option>
-                <option value="conferences">All Conferences</option>
-                <option value="atlantic">All Atlantic Leages</option>
+                {% for key, filter in league_filters.items %}
+                    <option value="{{key}}" {% if curr_league_filter == key %}selected{% endif %}>
+                        {{filter.description}}
+                    </option>
+                {% endfor %}
             </select>
             <input type="submit" value="Update Filter">
         </form>
@@ -31,13 +30,11 @@
             {% csrf_token %}
             <label for="teams_filter">Filter:</label>
             <select name="teams_filter">
-                <option value="sortalph">All Teams, Sorted by Alphabetical Order</option>
-                <option value="sortralph">All Teams, Sorted by Reverse Alphabetical Order</option>
-                <option value="sortloc">All Teams, Sorted by Location</option>
-                <option value="dallas">All Dallas Teams</option>
-                <option value="raptors">All &quot;Raptor&quot; Teams</option>
-                <option value="city">All &quot;City&quot; Teams</option>
-                <option value="t">All Team Names Beginning With &quot;T&quot;</option>
+                {% for key, filter in team_filters.items %}
+                    <option value="{{key}}" {% if curr_teams_filter == key %}selected{% endif %}>
+                        {{filter.description}}
+                    </option>
+                {% endfor %}
             </select>
             <input type="submit" value="Update Filter">
         </form>
@@ -54,18 +51,18 @@
             {% csrf_token %}
             <label for="players_filter">
             <select name="players_filter" id="players_filter">
-                <option value="all">All players</option>
-                <option value="cooper">All players with last name Cooper</option>
-                <option value="joshua">All players with first name Joshua</option>
-                <option value="cooper_not_joshua">All players with last name Cooper except those with Joshua as first name</option>
-                <option value="alexander_or_wyatt">All players with first name Alexander -or- Wyatt</option>
+                {% for key, filter in player_filters.items %}
+                    <option value="{{key}}" {% if curr_players_filter == key %}selected{% endif %}>
+                        {{filter.description}}
+                    </option>
+                {% endfor %}
             </select>
             <input type="submit" value="Update Filter">
         </form>
         <br>
 		<ol>
 			{% for player in players %}
-				<li>{{player.first_name}} {{player.last_name}}</li>
+            <li>{{player.first_name}} {{player.last_name}} {% if curr_players_filter == 'all_teams_count' %}(Played on {{player.teams_played_for}} teams) {% endif %}</li>
 			{% empty %}
 				<p>No teams found.  Try <code>python manage.py loaddata data.json</code>, or, if that doesn't work, going <a href="{% url 'make_data' %}">here</a> (but be prepared to wait).</p>
 			{% endfor %}
